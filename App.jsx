@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./CartSlice";
 import ProductList from "./ProductList";
 import CartItem from "./CartItem";
+import AboutUs from "./AboutUs";
 import "./App.css";
 
 const store = configureStore({
@@ -22,22 +23,14 @@ function NurseryApp() {
     0
   );
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
   if (page === "products") {
     return (
       <div className="app">
         <ProductList
           onCartClick={() => setPage("cart")}
+          onHomeClick={() => setPage("home")}
           totalItems={totalItems}
         />
-
-        <button onClick={() => setPage("home")}>
-          Back to Home
-        </button>
       </div>
     );
   }
@@ -45,28 +38,10 @@ function NurseryApp() {
   if (page === "cart") {
     return (
       <div className="app">
-        <h1>Shopping Cart</h1>
-
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty.</p>
-        ) : (
-          <>
-            {cartItems.map((item) => (
-              <CartItem key={item.id} item={item} />
-            ))}
-
-            <h2>Total: ${totalPrice}</h2>
-
-            <button onClick={() => alert("Thank you for your purchase!")}>
-              Checkout
-            </button>
-          </>
-        )}
-
-        <br />
-        <button onClick={() => setPage("products")}>
-          Continue Shopping
-        </button>
+        <CartItem
+          onContinueShopping={() => setPage("products")}
+          onHomeClick={() => setPage("home")}
+        />
       </div>
     );
   }
@@ -74,17 +49,15 @@ function NurseryApp() {
   return (
     <div className="app">
       <section className="hero">
-        <h1>Paradise Nursery</h1>
+        <h1>Welcome To Paradise Nursery</h1>
 
-        <p>Bring Nature Home</p>
-
-        <p>
-          Discover beautiful plants for your home and garden.
-        </p>
+        <p>Where Green Meets Serenity</p>
 
         <button onClick={() => setPage("products")}>
           Get Started
         </button>
+
+        <AboutUs />
       </section>
     </div>
   );
